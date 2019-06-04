@@ -1,1 +1,1 @@
-name = "pushnotifier-python"
+name = "pushnotifier"
