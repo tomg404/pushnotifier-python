@@ -1,5 +1,6 @@
 # PushNotifier (V2) for Python
 A python module to easily use the service of [PushNotifier](https://pushnotifier.de) in your python projects.
+Special thanks going to [@Logxn](https://github.com/Logxn).
 
 ## Installation
 - Install all dependencies
