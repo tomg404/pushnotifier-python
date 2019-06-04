@@ -80,7 +80,7 @@ class PushNotifier:
         if r.status_code == 200:
             return 200
         elif r.status_code == 400:
-            raise MalformattedRequestError
+            raise MalformedRequestError
             return 400
         elif r.status_code == 404:
             raise DeviceNotFoundError
@@ -106,7 +106,7 @@ class PushNotifier:
         if r.status_code == 200:
             return 200
         elif r.status_code == 400:
-            raise MalformattedRequestError
+            raise MalformedRequestError
             return 400
         elif r.status_code == 404:
             raise DeviceNotFoundError
@@ -134,7 +134,7 @@ class PushNotifier:
         if r.status_code == 200:
             return 200
         elif r.status_code == 400:
-            raise MalformattedRequestError
+            raise MalformedRequestError
             return 400
         elif r.status_code == 404:
             raise DeviceNotFoundError
