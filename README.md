@@ -31,7 +31,7 @@ pn = pn.PushNotifier('username', 'password', 'package_name', 'api_key')
 {'username': 'username', 'avatar': 'https://gravatar.com/avatar/XXXXX', 'app_token': 'XXXXX', 'expires_at': XXXXX}
 
 >>> pn.get_all_devices()
-['abcd', efgh', 'ijkl']
+['abcd', 'efgh', 'ijkl']
 ```
 ### Refresh app token
 ```python
