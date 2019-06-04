@@ -12,24 +12,27 @@ class PushNotifier:
         self.refresh_url = self.base_url + '/user/refresh'
         self.send_text_url = self.base_url + '/notifications/text'
         self.username = username
-        self.password = password
-        self.login_data = {
-        'username': self.username,
-        'password': self.password
-        }
         self.package_name = package_name
         self.api_key = api_key
-        self.app_token = self.__get_app_token()
+        self.app_token = self.__get_app_token(password)
         self.headers = {'X-AppToken': self.app_token}
 
     # checks if username, password, package_name and api_key are valid
     # and returns some infos
-    def login(self):
-        r = requests.post(self.login_url, json=self.login_data, auth=(self.package_name, self.api_key), headers=self.headers)
+    def login(self, password):
+        login_data = {
+        'username': self.username,
+        'password': password
+        }
+        r = requests.post(self.login_url, json=login_data, auth=(self.package_name, self.api_key), headers=self.headers)
         return r.json()
 
-    def __get_app_token(self):
-        r = requests.post(self.login_url, data=self.login_data, auth=(self.package_name, self.api_key))
+    def __get_app_token(self, password):
+        login_data = {
+        'username': self.username,
+        'password': password
+        }
+        r = requests.post(self.login_url, data=login_data, auth=(self.package_name, self.api_key))
         app_token = json.loads(r.text)['app_token']
 
         if r.status_code == 401:
