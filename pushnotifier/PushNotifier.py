@@ -1,7 +1,8 @@
 import requests
 import json
 import base64
-from exceptions import *
+import pushnotifier.exceptions
+
 
 class PushNotifier:
     def __init__(self, username, password, package_name, api_key):
@@ -29,21 +30,17 @@ class PushNotifier:
 
     def __get_app_token(self):
         r = requests.post(self.login_url, data=self.login_data, auth=(self.package_name, self.api_key))
+        app_token = json.loads(r.text)['app_token']
 
-        if r.status_code == 200:
-            return 200
-        elif r.status_code == 401:
+        if r.status_code == 401:
             raise UnauthorizedError
-            return 401
         elif r.status_code == 403:
             raise IncorrectCredentialsError
-            return 403
         elif r.status_code == 404:
             raise UserNotFoundError
-            return 404
 
-        app_token = json.loads(r.text)['app_token']
         return app_token
+
 
     # calls https://api.pushnotifier.de/v2/user/refresh to refresh the app token
     def refresh_token(self):
