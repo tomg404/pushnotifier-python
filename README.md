@@ -28,7 +28,8 @@ pn = pn.PushNotifier('username', 'password', 'package_name', 'api_key')
 ```
 ### Get Basic information
 ```python
->>> pn.login()
+>>> password = 'XXXXX'
+>>> pn.login(password)
 {'username': 'username', 'avatar': 'https://gravatar.com/avatar/XXXXX', 'app_token': 'XXXXX', 'expires_at': XXXXX}
 
 >>> pn.get_all_devices()
