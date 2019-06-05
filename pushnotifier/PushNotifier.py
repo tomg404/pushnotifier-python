@@ -1,7 +1,7 @@
 import requests
 import json
 import base64
-import pushnotifier.exceptions
+from pushnotifier.exceptions import *
 
 
 class PushNotifier:
