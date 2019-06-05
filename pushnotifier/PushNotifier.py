@@ -33,7 +33,6 @@ class PushNotifier:
         'password': password
         }
         r = requests.post(self.login_url, data=login_data, auth=(self.package_name, self.api_key))
-        app_token = json.loads(r.text)['app_token']
 
         if r.status_code == 401:
             raise UnauthorizedError
@@ -42,6 +41,7 @@ class PushNotifier:
         elif r.status_code == 404:
             raise UserNotFoundError
 
+        app_token = json.loads(r.text)['app_token']
         return app_token
 
 
@@ -79,7 +79,6 @@ class PushNotifier:
             }
 
         r = requests.put(self.send_text_url, json=body, auth=(self.package_name, self.api_key), headers=self.headers)
-
         if r.status_code == 200:
             return 200
         elif r.status_code == 400:
