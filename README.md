@@ -61,3 +61,8 @@ pn = pn.PushNotifier('username', 'password', 'package_name', 'api_key')
 >>> pn.refresh_token()
 'new_token'
 ```
+
+### More detailed help
+```python
+>>> help(pn.some_method_you_need_help_on)
+```
