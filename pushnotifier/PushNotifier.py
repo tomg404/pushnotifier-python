@@ -60,8 +60,8 @@ class PushNotifier:
         r = requests.get(self.devices_url, auth=(self.package_name, self.api_key), headers=self.headers)
         devices = r.json()
         devices_array = []
-        for i in range(len(devices)):
-            devices_array.append(devices[i]['id'])
+        for index, _ in enumerate(devices):
+            devices_array.append(devices[index]['id'])
         return devices_array
 
     # sends text to all devices specified.
@@ -145,6 +145,7 @@ class PushNotifier:
             raise DeviceNotFoundError
             return 404
 
+    # basically same functionality as send_text but you are passing an image to the function
     def send_image(self, image_path, devices=None, silent=False):
         with open(image_path, "rb") as image_file:
             encoded_bytes = base64.b64encode(image_file.read())
@@ -153,7 +154,6 @@ class PushNotifier:
         # since json can't handle raw bytes we need to decode them into a base64 string
         encoded_image = encoded_bytes.decode('utf-8')
         file_name = ''.join(random.choice(string.ascii_lowercase + string.ascii_uppercase) for i in range(10))
-        
         if devices == None:
             body = {
             "devices": self.get_all_devices(),
