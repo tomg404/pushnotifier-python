@@ -1,6 +1,8 @@
 import requests
 import json
 import base64
+import random
+import string
 from pushnotifier.exceptions import *
 
 
@@ -11,6 +13,7 @@ class PushNotifier:
         self.devices_url = self.base_url + '/devices'
         self.refresh_url = self.base_url + '/user/refresh'
         self.send_text_url = self.base_url + '/notifications/text'
+        self.send_image_url = self.base_url + '/notifications/image'
         self.username = username
         self.package_name = package_name
         self.api_key = api_key
@@ -142,6 +145,37 @@ class PushNotifier:
             raise DeviceNotFoundError
             return 404
 
-    def __send_image(self, image_path, devices=None, silent=False):
-        # TODO: make this work
-        pass
+    def send_image(self, image_path, devices=None, silent=False):
+        with open(image_path, "rb") as image_file:
+            encoded_bytes = base64.b64encode(image_file.read())
+
+        # encoded_image are base64 encoded bytes of the image_file bytes
+        # since json can't handle raw bytes we need to decode them into a base64 string
+        encoded_image = encoded_bytes.decode('utf-8')
+        file_name = ''.join(random.choice(string.ascii_lowercase + string.ascii_uppercase) for i in range(10))
+        
+        if devices == None:
+            body = {
+            "devices": self.get_all_devices(),
+            "content": encoded_image,
+            "filename": file_name,
+            "silent": silent
+            }
+        else:
+            body = {
+            "devices": devices,
+            "content": encoded_image,
+            "filename": file_name,
+            "silent": silent
+            }
+
+        r = requests.put(self.send_image_url, json=body, auth=(self.package_name, self.api_key), headers=self.headers)
+
+        if r.status_code == 200:
+            return 200
+        elif r.status_code == 400:
+            raise MalformedRequestError
+            return 400
+        elif r.status_code == 404:
+            raise DeviceNotFoundError
+            return 404
