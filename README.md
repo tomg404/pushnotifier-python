@@ -2,6 +2,7 @@
 [![PyPI version](https://badge.fury.io/py/pushnotifier.svg)](https://badge.fury.io/py/pushnotifier)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pushnotifier.svg)
 ![GitHub contributors](https://img.shields.io/github/contributors/tomg404/pushnotifier-python.svg)
+![Codacy grade](https://img.shields.io/codacy/grade/c7eb50b6f38b48aca431fc576ff7eb29.svg)
 ![GitHub repo size](https://img.shields.io/github/repo-size/tomg404/pushnotifier-python.svg)
 ![GitHub](https://img.shields.io/github/license/tomg404/pushnotifier-python.svg)
 
