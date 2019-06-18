@@ -5,7 +5,7 @@ with open('README.md', 'r') as fh:
 
 setuptools.setup(
     name="pushnotifier",
-    version="1.0.0",
+    version="1.2",
     author="Tom Gaimann",
     author_email="tom.gaimann@outlook.com",
     description="A python package for an easy use of the service from https://pushnotifier.de/",
