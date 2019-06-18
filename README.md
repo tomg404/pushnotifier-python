@@ -24,6 +24,7 @@ pn = pn.PushNotifier('username', 'password', 'package_name', 'api_key')
 >>> pn.send_text('hello world', silent=False)
 >>> pn.send_url('https://www.example.com', silent=True)
 >>> pn.send_notification('hello world', 'https://www.example.com')	# by default silent is set to False
+>>> pn.send_image('C:\\Users\\Admin\\Pictures\\MySweetCat.png')
 ```
 ### Get Basic information
 ```python
