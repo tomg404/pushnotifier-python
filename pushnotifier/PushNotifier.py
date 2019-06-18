@@ -267,26 +267,24 @@ class PushNotifier:
         # generate random file name
         file_name = str(uuid.uuid4())
 
-                if devices == None:
-                    # images seem to only be sent to telegram devices
-                    # to prevent any exception we will get only the telegram device(s) instead
-                    devices = self.get_telegram_device()
-                    if devices == False:
-                        raise NoTelegramDeviceError
-
-                    body = {
-                    "devices": devices,
-                    "content": encoded_image,
-                    "filename": file_name,
-                    "silent": silent
-                    }
-                else:
-                    body = {
-                    "devices": devices,
-                    "content": encoded_image,
-                    "filename": file_name,
-                    "silent": silent
-                    }
+        if devices == None:
+            devices = self.get_telegram_device()
+            if devices == False:
+                raise NoTelegramDeviceError
+            else:
+                 body = {
+                 "devices": devices,
+                 "content": encoded_image,
+                 "filename": file_name,
+                 "silent": silent
+                 }
+        else:
+                body = {
+                "devices": devices,
+                "content": encoded_image,
+                "filename": file_name,
+                "silent": silent
+                 }
 
         r = requests.put(self.send_image_url, json=body, auth=(self.package_name, self.api_key), headers=self.headers)
 
