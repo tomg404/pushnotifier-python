@@ -97,6 +97,14 @@ class PushNotifier:
 
     # gets all devices which are connected to telegram
     def get_telegram_device(self):
+        """
+        Get all telegram devices linked with your account
+
+        Returns:
+            list: list with all telegram devices linked with your account
+            False: if no telegram device was found
+
+        """
         r = requests.get(self.devices_url, auth=(self.package_name, self.api_key), headers=self.headers)
         devices = r.json()
         devices_array = []

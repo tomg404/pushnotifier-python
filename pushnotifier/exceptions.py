@@ -5,5 +5,6 @@ IncorrectCredentialsError = Exception('credentials are incorrect')
 UnauthorizedError = Exception('package name or api key is incorrect')
 PayloadTooLargeError = Exception('your image is too big (> 5 MB)')
 UnsupportedMediaTypeError = Exception('you passed an invalid file type or the device(s) you tried to send this image to can\'t receive images')
-UnknownError = Exception('an unknown error occured! please contact the author of this module!')
 NoTelegramDeviceError = Exception('unfortunately images can only be sent to telegram devices. no telegram device found')
+
+UnknownError = Exception('an unknown error occured! please contact the author of this module!')
