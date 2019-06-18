@@ -59,6 +59,17 @@ class PushNotifier:
             devices_array.append(devices[i]['id'])
         return devices_array
 
+    # gets all devices which are connected to telegram
+    def get_telegram_device(self):
+        r = requests.get(self.devices_url, auth=(self.package_name, self.api_key), headers=self.headers)
+        devices = r.json()
+        devices_array = []
+        for i in range(len(devices)):
+            if devices[i]['model'] == 'Telegram':
+                devices_array.append(devices[i]['id'])
+                return devices_array
+        return False
+
     # sends text to all devices specified.
     # if no device is specified it sends the message to every device.
     # returns the response code of the api.
@@ -151,8 +162,14 @@ class PushNotifier:
         file_name = image_path[image_path.rindex('\\')+1]
 
         if devices == None:
+            # images seem to only be sent to telegram devices
+            # to prevent any exception we will get only the telegram device(s) instead
+            devices = self.get_telegram_device()
+            if devices == False:
+                raise NoTelegramDeviceError
+
             body = {
-            "devices": self.get_all_devices(),
+            "devices": devices,
             "content": encoded_image,
             "filename": file_name,
             "silent": silent
