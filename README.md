@@ -1,4 +1,5 @@
 # PushNotifier (V2) for Python
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/83e23dafd6df48da9243420189db9ba0)](https://app.codacy.com/app/tomg404/pushnotifier-python?utm_source=github.com&utm_medium=referral&utm_content=tomg404/pushnotifier-python&utm_campaign=Badge_Grade_Dashboard)
 [![PyPI version](https://badge.fury.io/py/pushnotifier.svg)](https://badge.fury.io/py/pushnotifier)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pushnotifier.svg)
 ![GitHub contributors](https://img.shields.io/github/contributors/tomg404/pushnotifier-python.svg)
