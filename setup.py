@@ -1,11 +1,12 @@
 import setuptools
+import pushnotifier
 
 with open('README.md', 'r') as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="pushnotifier",
-    version="1.2",
+    name=pushnotifier.__name__,
+    version=pushnotifier.__version__,
     author="Tom Gaimann",
     author_email="tom.gaimann@outlook.com",
     description="A python package for an easy use of the service from https://pushnotifier.de/",
