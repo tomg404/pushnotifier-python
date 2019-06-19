@@ -2,7 +2,6 @@ import requests
 import json
 import base64
 import uuid
-import string
 from pushnotifier.exceptions import *
 
 
@@ -71,7 +70,7 @@ class PushNotifier:
         Used to refresh your app token
 
         Returns:
-            string: new app token
+            str: new app token
         """
         r = requests.get(self.refresh_url, auth=(
             self.package_name, self.api_key), headers=self.headers)
@@ -132,10 +131,8 @@ class PushNotifier:
             return 200
         elif r.status_code == 400:
             raise MalformedRequestError
-            return 400
         elif r.status_code == 404:
             raise DeviceNotFoundError
-            return 404
 
     def send_url(self, url, devices=None, silent=False):
         """
@@ -174,10 +171,8 @@ class PushNotifier:
             return 200
         elif r.status_code == 400:
             raise MalformedRequestError
-            return 400
         elif r.status_code == 404:
             raise DeviceNotFoundError
-            return 404
 
     def send_notification(self, text, url, devices=None, silent=False):
         """
@@ -219,10 +214,8 @@ class PushNotifier:
             return 200
         elif r.status_code == 400:
             raise MalformedRequestError
-            return 400
         elif r.status_code == 404:
             raise DeviceNotFoundError
-            return 404
 
     def send_image(self, image_path, devices=None, silent=False):
         """
@@ -275,17 +268,11 @@ class PushNotifier:
             return 200
         elif r.status_code == 400:
             raise MalformedRequestError
-            return 400
         elif r.status_code == 404:
             raise DeviceNotFoundError
-            return 404
         elif r.status_code == 413:
             raise PayloadTooLargeError
-            return 413
         elif r.status_code == 415:
             raise UnsupportedMediaTypeError
-            return 415
         else:
             raise UnknownError
-            print('Error code:', r.status_code, r.reason)
-            return -1
