@@ -108,9 +108,9 @@ class PushNotifier:
         r = requests.get(self.devices_url, auth=(self.package_name, self.api_key), headers=self.headers)
         devices = r.json()
         devices_array = []
-        for i in range(len(devices)):
-            if devices[i]['model'] == 'Telegram':
-                devices_array.append(devices[i]['id'])
+        for index, _ in enumerate(devices):
+            if devices[index]['model'] == 'Telegram':
+                devices_array.append(devices[index]['id'])
                 return devices_array
         return False
 
