@@ -2,6 +2,7 @@
 
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pushnotifier.svg)
 [![PyPI version](https://badge.fury.io/py/pushnotifier.svg)](https://badge.fury.io/py/pushnotifier)
+[![Documentation Status](https://readthedocs.org/projects/pushnotifier-python/badge/?version=latest)](https://pushnotifier-python.readthedocs.io/en/latest/?badge=latest)
 ![GitHub](https://img.shields.io/github/license/tomg404/pushnotifier-python.svg)
 
 [![Gitter](https://badges.gitter.im/pushnotifier/community.svg)](https://gitter.im/pushnotifier/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
@@ -9,6 +10,8 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/tomg404/pushnotifier-python.svg)
 
 A python module to easily use the service of [PushNotifier](https://pushnotifier.de) in your python projects.
+
+You can find the documentation [here](https://pushnotifier-python.readthedocs.io/en/latest/).
 
 Special thanks go to [@Logxn](https://github.com/Logxn).
 
@@ -68,6 +71,7 @@ pn = pn.PushNotifier('username', 'password', 'package_name', 'api_key')
 ```
 
 ### More detailed help
+See the [documentation](https://pushnotifier-python.readthedocs.io/en/latest/) or
 ```python
 >>> help(pn.some_method_you_need_help_on)
 ```
