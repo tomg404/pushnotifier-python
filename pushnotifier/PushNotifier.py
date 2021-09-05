@@ -22,6 +22,8 @@ class PushNotifier:
         self.devices_url = self.base_url + '/devices'
         self.refresh_url = self.base_url + '/user/refresh'
         self.send_text_url = self.base_url + '/notifications/text'
+        self.send_url_url = self.base_url + '/notifications/url'
+        self.send_notification_url = self.base_url + '/notifications/notification'
         self.send_image_url = self.base_url + '/notifications/image'
         self.username = username
         self.package_name = package_name
@@ -154,17 +156,17 @@ class PushNotifier:
         if devices == None:
             body = {
                 "devices": self.get_all_devices(),
-                "content": url,
+                "url": url,
                 "silent": silent
             }
         else:
             body = {
                 "devices": devices,
-                "content": url,
+                "url": url,
                 "silent": silent
             }
 
-        r = requests.put(self.send_text_url, json=body, auth=(
+        r = requests.put(self.send_url_url, json=body, auth=(
             self.package_name, self.api_key), headers=self.headers)
 
         if r.status_code == 200:
@@ -207,7 +209,7 @@ class PushNotifier:
                 "silent": silent
             }
 
-        r = requests.put(self.send_text_url, json=body, auth=(
+        r = requests.put(self.send_notification_url, json=body, auth=(
             self.package_name, self.api_key), headers=self.headers)
 
         if r.status_code == 200:
