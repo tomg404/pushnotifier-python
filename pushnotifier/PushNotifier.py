@@ -23,6 +23,7 @@ class PushNotifier:
         self.refresh_url = self.base_url + '/user/refresh'
         self.send_text_url = self.base_url + '/notifications/text'
         self.send_url_url = self.base_url + '/notifications/url'
+        self.send_notification_url = self.base_url + '/notifications/notification'
         self.send_image_url = self.base_url + '/notifications/image'
         self.username = username
         self.package_name = package_name
@@ -208,7 +209,7 @@ class PushNotifier:
                 "silent": silent
             }
 
-        r = requests.put(self.send_text_url, json=body, auth=(
+        r = requests.put(self.send_notification_url, json=body, auth=(
             self.package_name, self.api_key), headers=self.headers)
 
         if r.status_code == 200:
