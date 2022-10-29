@@ -21,8 +21,10 @@ class PushNotifier:
         self.login_url = self.base_url + '/user/login'
         self.devices_url = self.base_url + '/devices'
         self.refresh_url = self.base_url + '/user/refresh'
-        self.send_text_url = self.base_url + '/notifications/text'
-        self.send_image_url = self.base_url + '/notifications/image'
+        self.endpoint_text = self.base_url + '/notifications/text'
+        self.endpoint_url = self.base_url + '/notifications/url'
+        self.endpoint_image = self.base_url + '/notifications/image'
+        self.endpoint_notification = self.base_url + '/notifications/notification'
         self.username = username
         self.package_name = package_name
         self.api_key = api_key
@@ -53,7 +55,8 @@ class PushNotifier:
             'username': self.username,
             'password': password
         }
-        r = requests.post(self.login_url, data=login_data, auth=(self.package_name, self.api_key))
+        r = requests.post(self.login_url, data=login_data,
+                          auth=(self.package_name, self.api_key))
 
         if r.status_code == 401:
             raise UnauthorizedError
@@ -125,7 +128,7 @@ class PushNotifier:
                 "silent": silent
             }
 
-        r = requests.put(self.send_text_url, json=body, auth=(
+        r = requests.put(self.endpoint_text, json=body, auth=(
             self.package_name, self.api_key), headers=self.headers)
         if r.status_code == 200:
             return 200
@@ -154,17 +157,17 @@ class PushNotifier:
         if devices == None:
             body = {
                 "devices": self.get_all_devices(),
-                "content": url,
+                "url": url,
                 "silent": silent
             }
         else:
             body = {
                 "devices": devices,
-                "content": url,
+                "url": url,
                 "silent": silent
             }
 
-        r = requests.put(self.send_text_url, json=body, auth=(
+        r = requests.put(self.endpoint_url, json=body, auth=(
             self.package_name, self.api_key), headers=self.headers)
 
         if r.status_code == 200:
@@ -207,7 +210,7 @@ class PushNotifier:
                 "silent": silent
             }
 
-        r = requests.put(self.send_text_url, json=body, auth=(
+        r = requests.put(self.endpoint_notification, json=body, auth=(
             self.package_name, self.api_key), headers=self.headers)
 
         if r.status_code == 200:
@@ -261,7 +264,7 @@ class PushNotifier:
                 "silent": silent
             }
 
-        r = requests.put(self.send_image_url, json=body, auth=(
+        r = requests.put(self.endpoint_image, json=body, auth=(
             self.package_name, self.api_key), headers=self.headers)
 
         if r.status_code == 200:
