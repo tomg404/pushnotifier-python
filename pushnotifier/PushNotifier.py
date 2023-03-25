@@ -22,6 +22,8 @@ class PushNotifier:
         self.devices_url = self.base_url + '/devices'
         self.refresh_url = self.base_url + '/user/refresh'
         self.send_text_url = self.base_url + '/notifications/text'
+        self.send_just_url = self.base_url + '/notifications/url'
+        self.send_notification_url = self.base_url + '/notifications/notification'
         self.send_image_url = self.base_url + '/notifications/image'
         self.username = username
         self.package_name = package_name
@@ -134,7 +136,7 @@ class PushNotifier:
         elif r.status_code == 404:
             raise DeviceNotFoundError
 
-    def send_url(self, url, devices=None, silent=False):
+    def send_url(self, url_text, devices=None, silent=False):
         """
         Sends a url to all devices specified
 
@@ -154,17 +156,17 @@ class PushNotifier:
         if devices == None:
             body = {
                 "devices": self.get_all_devices(),
-                "content": url,
+                "url": url_text,
                 "silent": silent
             }
         else:
             body = {
                 "devices": devices,
-                "content": url,
+                "url": url_text,
                 "silent": silent
             }
 
-        r = requests.put(self.send_text_url, json=body, auth=(
+        r = requests.put(self.send_just_url, json=body, auth=(
             self.package_name, self.api_key), headers=self.headers)
 
         if r.status_code == 200:
@@ -207,7 +209,7 @@ class PushNotifier:
                 "silent": silent
             }
 
-        r = requests.put(self.send_text_url, json=body, auth=(
+        r = requests.put(self.send_notification_url, json=body, auth=(
             self.package_name, self.api_key), headers=self.headers)
 
         if r.status_code == 200:
