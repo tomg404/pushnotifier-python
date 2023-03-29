@@ -96,6 +96,28 @@ class PushNotifier:
             devices_array.append(devices[index]['id'])
         return devices_array
 
+    # gets all devices which are connected to telegram
+    def get_telegram_device(self):
+        """
+        Get all telegram devices linked with your account
+
+        Returns:
+            list: list with all telegram devices linked with your account
+            False: if no telegram device was found
+
+        """
+        r = requests.get(self.devices_url, auth=(self.package_name, self.api_key), headers=self.headers)
+        devices = r.json()
+        devices_array = []
+        for index, _ in enumerate(devices):
+            if devices[index]['model'] == 'Telegram':
+                devices_array.append(devices[index]['id'])
+                return devices_array
+        return False
+
+    # sends text to all devices specified.
+    # if no device is specified it sends the message to every device.
+    # returns the response code of the api.
     def send_text(self, text, devices=None, silent=False):
         """
         Sends a text to all devices specified
@@ -249,22 +271,25 @@ class PushNotifier:
         file_name = str(uuid.uuid4())
 
         if devices == None:
-            body = {
-                "devices": self.get_all_devices(),
-                "content": encoded_image,
-                "filename": file_name,
-                "silent": silent
-            }
+            devices = self.get_telegram_device()
+            if devices == False:
+                raise NoTelegramDeviceError
+            else:
+                 body = {
+                 "devices": devices,
+                 "content": encoded_image,
+                 "filename": file_name,
+                 "silent": silent
+                 }
         else:
-            body = {
+                body = {
                 "devices": devices,
                 "content": encoded_image,
                 "filename": file_name,
                 "silent": silent
-            }
+                 }
 
-        r = requests.put(self.send_image_url, json=body, auth=(
-            self.package_name, self.api_key), headers=self.headers)
+        r = requests.put(self.send_image_url, json=body, auth=(self.package_name, self.api_key), headers=self.headers)
 
         if r.status_code == 200:
             return 200
