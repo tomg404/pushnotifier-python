@@ -6,7 +6,6 @@ from pushnotifier.exceptions import *
 
 
 class PushNotifier:
-
     def __init__(self, username, password, package_name, api_key):
         """
         Initialize a new PushNotifier object
@@ -17,19 +16,19 @@ class PushNotifier:
             package_name (str): the package you want to send the messages to
             api_key (str): your api key (https://pushnotifier.de/account/api)
         """
-        self.base_url = 'https://api.pushnotifier.de/v2'
-        self.login_url = self.base_url + '/user/login'
-        self.devices_url = self.base_url + '/devices'
-        self.refresh_url = self.base_url + '/user/refresh'
-        self.send_text_url = self.base_url + '/notifications/text'
-        self.send_just_url = self.base_url + '/notifications/url'
-        self.send_notification_url = self.base_url + '/notifications/notification'
-        self.send_image_url = self.base_url + '/notifications/image'
+        self.base_url = "https://api.pushnotifier.de/v2"
+        self.login_url = self.base_url + "/user/login"
+        self.devices_url = self.base_url + "/devices"
+        self.refresh_url = self.base_url + "/user/refresh"
+        self.send_text_url = self.base_url + "/notifications/text"
+        self.send_just_url = self.base_url + "/notifications/url"
+        self.send_notification_url = self.base_url + "/notifications/notification"
+        self.send_image_url = self.base_url + "/notifications/image"
         self.username = username
         self.package_name = package_name
         self.api_key = api_key
         self.app_token = self.__get_app_token(password)
-        self.headers = {'X-AppToken': self.app_token}
+        self.headers = {"X-AppToken": self.app_token}
 
     def login(self, password):
         """
@@ -42,20 +41,20 @@ class PushNotifier:
             dict: basic information about your account
         """
 
-        login_data = {
-            'username': self.username,
-            'password': password
-        }
-        r = requests.post(self.login_url, json=login_data, auth=(
-            self.package_name, self.api_key), headers=self.headers)
+        login_data = {"username": self.username, "password": password}
+        r = requests.post(
+            self.login_url,
+            json=login_data,
+            auth=(self.package_name, self.api_key),
+            headers=self.headers,
+        )
         return r.json()
 
     def __get_app_token(self, password):
-        login_data = {
-            'username': self.username,
-            'password': password
-        }
-        r = requests.post(self.login_url, data=login_data, auth=(self.package_name, self.api_key))
+        login_data = {"username": self.username, "password": password}
+        r = requests.post(
+            self.login_url, data=login_data, auth=(self.package_name, self.api_key)
+        )
 
         if r.status_code == 401:
             raise UnauthorizedError
@@ -64,7 +63,7 @@ class PushNotifier:
         elif r.status_code == 404:
             raise UserNotFoundError
 
-        app_token = json.loads(r.text)['app_token']
+        app_token = json.loads(r.text)["app_token"]
         return app_token
 
     def refresh_token(self):
@@ -74,9 +73,12 @@ class PushNotifier:
         Returns:
             str: new app token
         """
-        r = requests.get(self.refresh_url, auth=(
-            self.package_name, self.api_key), headers=self.headers)
-        new_token = r.json()['app_token']
+        r = requests.get(
+            self.refresh_url,
+            auth=(self.package_name, self.api_key),
+            headers=self.headers,
+        )
+        new_token = r.json()["app_token"]
         self.app_token = new_token
         return new_token
 
@@ -88,12 +90,15 @@ class PushNotifier:
             list: list with all devices linked with your account
 
         """
-        r = requests.get(self.devices_url, auth=(
-            self.package_name, self.api_key), headers=self.headers)
+        r = requests.get(
+            self.devices_url,
+            auth=(self.package_name, self.api_key),
+            headers=self.headers,
+        )
         devices = r.json()
         devices_array = []
         for index, _ in enumerate(devices):
-            devices_array.append(devices[index]['id'])
+            devices_array.append(devices[index]["id"])
         return devices_array
 
     def send_text(self, text, devices=None, silent=False):
@@ -110,25 +115,25 @@ class PushNotifier:
 
         Raises:
             MalformedRequestError: the request is malformed, i.e. missing content
-            DeviceNotFoundError: a device couldn\'t be found
+            DeviceNotFoundError: a device couldn't be found
 
         """
 
-        if devices == None:
+        if devices is None:
             body = {
                 "devices": self.get_all_devices(),
                 "content": text,
-                "silent": silent
+                "silent": silent,
             }
         else:
-            body = {
-                "devices": devices,
-                "content": text,
-                "silent": silent
-            }
+            body = {"devices": devices, "content": text, "silent": silent}
 
-        r = requests.put(self.send_text_url, json=body, auth=(
-            self.package_name, self.api_key), headers=self.headers)
+        r = requests.put(
+            self.send_text_url,
+            json=body,
+            auth=(self.package_name, self.api_key),
+            headers=self.headers,
+        )
         if r.status_code == 200:
             return 200
         elif r.status_code == 400:
@@ -138,10 +143,10 @@ class PushNotifier:
 
     def send_url(self, url_text, devices=None, silent=False):
         """
-        Sends a url to all devices specified
+        Sends an url to all devices specified
 
         Args:
-            url (str): the url you want to send
+            url_text (str): the url you want to send
             devices (list): a list of all devices you want to send the url to
             silent (bool): if False the message triggers a sound
 
@@ -150,24 +155,24 @@ class PushNotifier:
 
         Raises:
             MalformedRequestError: the request is malformed, i.e. missing content
-            DeviceNotFoundError: a device couldn\'t be found
+            DeviceNotFoundError: a device couldn't be found
 
         """
-        if devices == None:
+        if devices is None:
             body = {
                 "devices": self.get_all_devices(),
                 "url": url_text,
-                "silent": silent
+                "silent": silent,
             }
         else:
-            body = {
-                "devices": devices,
-                "url": url_text,
-                "silent": silent
-            }
+            body = {"devices": devices, "url": url_text, "silent": silent}
 
-        r = requests.put(self.send_just_url, json=body, auth=(
-            self.package_name, self.api_key), headers=self.headers)
+        r = requests.put(
+            self.send_just_url,
+            json=body,
+            auth=(self.package_name, self.api_key),
+            headers=self.headers,
+        )
 
         if r.status_code == 200:
             return 200
@@ -191,26 +196,25 @@ class PushNotifier:
 
         Raises:
             MalformedRequestError: the request is malformed, i.e. missing content
-            DeviceNotFoundError: a device couldn\'t be found
+            DeviceNotFoundError: a device couldn't be found
 
         """
-        if devices == None:
+        if devices is None:
             body = {
                 "devices": self.get_all_devices(),
                 "content": text,
                 "url": url,
-                "silent": silent
+                "silent": silent,
             }
         else:
-            body = {
-                "devices": devices,
-                "content": text,
-                "url": url,
-                "silent": silent
-            }
+            body = {"devices": devices, "content": text, "url": url, "silent": silent}
 
-        r = requests.put(self.send_notification_url, json=body, auth=(
-            self.package_name, self.api_key), headers=self.headers)
+        r = requests.put(
+            self.send_notification_url,
+            json=body,
+            auth=(self.package_name, self.api_key),
+            headers=self.headers,
+        )
 
         if r.status_code == 200:
             return 200
@@ -232,13 +236,11 @@ class PushNotifier:
         Returns:
             int: error code or 200 if everything went fine
 
-        Raises:
-            MalformedRequestError: the request is malformed, i.e. missing content
-            DeviceNotFoundError: a device couldn\'t be found
-            PayloadTooLargeError: your image is too big (> 5 MB)
-            UnsupportedMediaTypeError: you passed an invalid file type or the device(s) you tried to send this image to can\'t receive images
+        Raises: MalformedRequestError: the request is malformed, i.e. missing content DeviceNotFoundError: a device
+        couldn't be found PayloadTooLargeError: your image is too big (> 5 MB) UnsupportedMediaTypeError: you passed
+        an invalid file type or the device(s) you tried to send this image to can't receive images
         """
-        with open(image_path, 'rb') as image_file:
+        with open(image_path, "rb") as image_file:
             encoded_bytes = base64.b64encode(image_file.read())
 
         # encoded_image are base64 encoded bytes of the image_file bytes
@@ -248,23 +250,27 @@ class PushNotifier:
         # generate random file name
         file_name = str(uuid.uuid4())
 
-        if devices == None:
+        if devices is None:
             body = {
                 "devices": self.get_all_devices(),
                 "content": encoded_image,
                 "filename": file_name,
-                "silent": silent
+                "silent": silent,
             }
         else:
             body = {
                 "devices": devices,
                 "content": encoded_image,
                 "filename": file_name,
-                "silent": silent
+                "silent": silent,
             }
 
-        r = requests.put(self.send_image_url, json=body, auth=(
-            self.package_name, self.api_key), headers=self.headers)
+        r = requests.put(
+            self.send_image_url,
+            json=body,
+            auth=(self.package_name, self.api_key),
+            headers=self.headers,
+        )
 
         if r.status_code == 200:
             return 200
