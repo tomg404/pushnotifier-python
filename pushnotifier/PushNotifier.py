@@ -30,7 +30,7 @@ class PushNotifier:
         self.app_token = self.__get_app_token(password)
         self.headers = {"X-AppToken": self.app_token}
 
-    def login(self, password):
+    def login(self, password) -> dict:
         """
         Used to verify everything is working fine
 
@@ -50,7 +50,7 @@ class PushNotifier:
         )
         return r.json()
 
-    def __get_app_token(self, password):
+    def __get_app_token(self, password) -> str:
         login_data = {"username": self.username, "password": password}
         r = requests.post(
             self.login_url, data=login_data, auth=(self.package_name, self.api_key)
@@ -62,11 +62,13 @@ class PushNotifier:
             raise IncorrectCredentialsError
         elif r.status_code == 404:
             raise UserNotFoundError
+        elif r.status_code != 200:
+            raise UnknownError
 
         app_token = json.loads(r.text)["app_token"]
         return app_token
 
-    def refresh_token(self):
+    def refresh_token(self) -> str:
         """
         Used to refresh your app token
 
@@ -82,7 +84,7 @@ class PushNotifier:
         self.app_token = new_token
         return new_token
 
-    def get_all_devices(self):
+    def get_all_devices(self) -> list[str]:
         """
         Get all devices linked with your account
 
@@ -101,7 +103,7 @@ class PushNotifier:
             devices_array.append(devices[index]["id"])
         return devices_array
 
-    def send_text(self, text, devices=None, silent=False):
+    def send_text(self, text, devices=None, silent=False) -> None:
         """
         Sends a text to all devices specified
 
@@ -111,7 +113,7 @@ class PushNotifier:
             silent (bool): if False the message triggers a sound
 
         Returns:
-            int: error code or 200 if everything went fine
+            None
 
         Raises:
             MalformedRequestError: the request is malformed, i.e. missing content
@@ -134,14 +136,15 @@ class PushNotifier:
             auth=(self.package_name, self.api_key),
             headers=self.headers,
         )
-        if r.status_code == 200:
-            return 200
-        elif r.status_code == 400:
+
+        if r.status_code == 400:
             raise MalformedRequestError
         elif r.status_code == 404:
             raise DeviceNotFoundError
+        elif r.status_code != 200:
+            raise UnknownError
 
-    def send_url(self, url_text, devices=None, silent=False):
+    def send_url(self, url_text, devices=None, silent=False) -> None:
         """
         Sends an url to all devices specified
 
@@ -151,7 +154,7 @@ class PushNotifier:
             silent (bool): if False the message triggers a sound
 
         Returns:
-            int: error code or 200 if everything went fine
+            None
 
         Raises:
             MalformedRequestError: the request is malformed, i.e. missing content
@@ -174,14 +177,14 @@ class PushNotifier:
             headers=self.headers,
         )
 
-        if r.status_code == 200:
-            return 200
-        elif r.status_code == 400:
+        if r.status_code == 400:
             raise MalformedRequestError
         elif r.status_code == 404:
             raise DeviceNotFoundError
+        elif r.status_code != 200:
+            raise UnknownError
 
-    def send_notification(self, text, url, devices=None, silent=False):
+    def send_notification(self, text, url, devices=None, silent=False) -> None:
         """
         Sends a notification (text + url) to all devices specified
 
@@ -192,7 +195,7 @@ class PushNotifier:
             silent (bool): if False the message triggers a sound
 
         Returns:
-            int: error code or 200 if everything went fine
+            None
 
         Raises:
             MalformedRequestError: the request is malformed, i.e. missing content
@@ -216,14 +219,14 @@ class PushNotifier:
             headers=self.headers,
         )
 
-        if r.status_code == 200:
-            return 200
-        elif r.status_code == 400:
+        if r.status_code == 400:
             raise MalformedRequestError
         elif r.status_code == 404:
             raise DeviceNotFoundError
+        elif r.status_code != 200:
+            raise UnknownError
 
-    def send_image(self, image_path, devices=None, silent=False):
+    def send_image(self, image_path, devices=None, silent=False) -> None:
         """
         Thanks to @Logxn (github/logxn) for this method
         Sends an image to all devices specified
@@ -234,7 +237,7 @@ class PushNotifier:
             silent (bool): if False the message triggers a sound
 
         Returns:
-            int: error code or 200 if everything went fine
+            None
 
         Raises: MalformedRequestError: the request is malformed, i.e. missing content DeviceNotFoundError: a device
         couldn't be found PayloadTooLargeError: your image is too big (> 5 MB) UnsupportedMediaTypeError: you passed
@@ -272,9 +275,7 @@ class PushNotifier:
             headers=self.headers,
         )
 
-        if r.status_code == 200:
-            return 200
-        elif r.status_code == 400:
+        if r.status_code == 400:
             raise MalformedRequestError
         elif r.status_code == 404:
             raise DeviceNotFoundError
@@ -282,5 +283,5 @@ class PushNotifier:
             raise PayloadTooLargeError
         elif r.status_code == 415:
             raise UnsupportedMediaTypeError
-        else:
+        elif r.status_code != 200:
             raise UnknownError
