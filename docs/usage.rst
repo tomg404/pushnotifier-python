@@ -44,8 +44,7 @@ send_text
   By default the message gets sent to all ``devices`` linked to your
   `PushNotifier <https://pushnotifier.de>`_ account.
   The ``silent`` parameter, which by default is set to ``False`` specifies if the
-  message triggers a sound on the device(s) it gets sent to. ``send_text`` returns
-  ``200`` if nothing went wrong.
+  message triggers a sound on the device(s) it gets sent to.
 
 
   **Example:** Send the message to specific devices only and don't trigger a sound
@@ -110,17 +109,10 @@ send_image
 ----------
 
   To send an image you only have to pass the ``path`` of your image to the method.
-  The method returns ``200`` if everything went OK.
 
   ::
 
       >>> pn.send_image(image_path, devices, silent)
-
-  .. IMPORTANT::
-    If you leave the ``devices`` parameter untouched and you have a
-    mobile phone in your devices list the method will raise a ``UnsupportedMediaTypeError``
-    because the `PushNotifier API <https://pushnotifier.de>`_ currently doesn't
-    support sending images to mobile phones.
 
   **Example:**
 
