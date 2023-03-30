@@ -1,10 +1,10 @@
 # PushNotifier (V2) for Python
 
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pushnotifier.svg)
-[![PyPI version](https://badge.fury.io/py/pushnotifier.svg)](https://badge.fury.io/py/pushnotifier)
-[![Documentation Status](https://readthedocs.org/projects/pushnotifier-python/badge/?version=latest)](https://pushnotifier-python.readthedocs.io/en/latest/?badge=latest)
+![PyPI version](https://badge.fury.io/py/pushnotifier.svg)
+![build](https://img.shields.io/github/actions/workflow/status/tomg404/pushnotifier-python/python-package.yml?branch=master)
+![Documentation Status](https://readthedocs.org/projects/pushnotifier-python/badge/?version=latest)
 ![GitHub](https://img.shields.io/github/license/tomg404/pushnotifier-python.svg)
-
 ![GitHub repo size](https://img.shields.io/github/repo-size/tomg404/pushnotifier-python.svg)
 
 A python module to easily use the service of [PushNotifier](https://pushnotifier.de) in your python projects.
