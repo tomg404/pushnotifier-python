@@ -18,8 +18,8 @@ Initialization
 
   ::
 
-      >>> from pushnotifier import PushNotifier as pn
-      >>> pn = pn.PushNotifier('username', 'password', 'package_name', 'api_key')
+      >>> from pushnotifier import PushNotifier
+      >>> pn = PushNotifier('username', 'password', 'package_name', 'api_key')
 
 
 login
@@ -40,7 +40,6 @@ send_text
   ::
 
       >>> pn.send_text(text, devices, silent)
-      200
 
   By default the message gets sent to all ``devices`` linked to your
   `PushNotifier <https://pushnotifier.de>`_ account.
@@ -55,7 +54,6 @@ send_text
   ::
 
     >>> pn.send_text(text, devices=['ID1', 'ID2'], silent=True)
-    200
 
   **Errors:**
 
@@ -74,14 +72,12 @@ send_url
   ::
 
       >>> pn.send_url(url, devices, silent)
-      200
 
   **Example:**
 
   ::
 
       >>> pn.send_url('https://www.example.com')
-      200
 
   **Errors and returns:**
 
@@ -97,14 +93,12 @@ send_notification
   ::
 
       >>> pn.send_notification(text, url, devices, silent)
-      200
 
   **Example:**
 
   ::
 
       >>> pn.send_url('hello world', 'https://www.example.com')
-      200
 
   **Errors and returns:**
 
@@ -116,12 +110,11 @@ send_image
 ----------
 
   To send an image you only have to pass the ``path`` of your image to the method.
-  The method returns ``200`` if eveverything went OK.
+  The method returns ``200`` if everything went OK.
 
   ::
 
       >>> pn.send_image(image_path, devices, silent)
-      200
 
   .. IMPORTANT::
     If you leave the ``devices`` parameter untouched and you have a
