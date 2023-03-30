@@ -5,15 +5,11 @@
 [![Documentation Status](https://readthedocs.org/projects/pushnotifier-python/badge/?version=latest)](https://pushnotifier-python.readthedocs.io/en/latest/?badge=latest)
 ![GitHub](https://img.shields.io/github/license/tomg404/pushnotifier-python.svg)
 
-[![Gitter](https://badges.gitter.im/pushnotifier/community.svg)](https://gitter.im/pushnotifier/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
-![Codacy grade](https://img.shields.io/codacy/grade/c7eb50b6f38b48aca431fc576ff7eb29.svg)
 ![GitHub repo size](https://img.shields.io/github/repo-size/tomg404/pushnotifier-python.svg)
 
 A python module to easily use the service of [PushNotifier](https://pushnotifier.de) in your python projects.
 
 You can find the documentation [here](https://pushnotifier-python.readthedocs.io/en/latest/).
-
-Special thanks go to [@Logxn](https://github.com/Logxn).
 
 ## About
 Easily send
@@ -25,7 +21,6 @@ Easily send
 via python to all your devices. For more info visit [pushnotifier.de](https://pushnotifier.de)
 
 ## Installation
-**Note: you have to have `requests` installed (`pip install requests`)**
 -   Install PushNotifier via pip
     ```console
     $ pip install pushnotifier
@@ -40,9 +35,9 @@ via python to all your devices. For more info visit [pushnotifier.de](https://pu
 
 ## Usage
 ```python
-from pushnotifier import PushNotifier as pn
+from pushnotifier import PushNotifier
 
-pn = pn.PushNotifier('username', 'password', 'package_name', 'api_key')
+pn = PushNotifier('username', 'password', 'package_name', 'api_key')
 ```
 
 ### Sending messages
@@ -64,9 +59,10 @@ pn = pn.PushNotifier('username', 'password', 'package_name', 'api_key')
 >>> pn.get_all_devices()
 ['abcd', 'efgh', 'ijkl']
 ```
+
 ### Refresh app token
 ```python
->>> pn.refresh_token()
+>> > pn.refresh_token()
 'new_token'
 ```
 
